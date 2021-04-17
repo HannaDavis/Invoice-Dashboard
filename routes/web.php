@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +25,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [InvoiceController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::get('/dashboard/create', [InvoiceController::class, 'create'])
+    ->middleware(['auth', 'verified']);
+
+Route::post('/dashboard/store', [InvoiceController::class, 'store'])
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
