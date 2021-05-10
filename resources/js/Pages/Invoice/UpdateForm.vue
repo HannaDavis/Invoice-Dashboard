@@ -14,7 +14,7 @@
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-client-id"
                             type="text"
-                            v-model="form.client_id">
+                            v-model="invoice.client_id">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -29,7 +29,7 @@
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-description"
                             type="text"
-                            v-model="form.description">
+                            v-model="invoice.description">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -43,7 +43,7 @@
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-subtotal" type="text"
-                            v-model="form.subtotal">
+                            v-model="invoice.subtotal">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -57,7 +57,7 @@
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-tax" type="text"
-                            v-model="form.tax">
+                            v-model="invoice.tax">
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -71,7 +71,7 @@
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-total" type="text"
-                            v-model="form.total">
+                            v-model="invoice.total">
                     </div>
                 </div>
 
@@ -92,20 +92,23 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
-import { reactive } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+import {reactive} from 'vue'
+import {Inertia} from '@inertiajs/inertia'
 
 export default {
+    props: ['invoice'],
     components: {
         BreezeAuthenticatedLayout,
     },
-    setup() {
+    setup(props) {
         const form = reactive({
             client_id: null
         })
 
-        function submit() {
-            Inertia.post('/invoice/store', form)
+        const invoice = props.invoice;
+
+        function submit(props) {
+            Inertia.post('/invoice/update/4', invoice)
         }
 
         return {form, submit}
