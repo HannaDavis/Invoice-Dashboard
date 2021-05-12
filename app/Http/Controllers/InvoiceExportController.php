@@ -10,7 +10,14 @@ class InvoiceExportController extends Controller
 {
     public function exportPdf(Invoice $invoice)
     {
-        $pdf = PDF::loadView('pdf_view', ['invoice' => $invoice, 'client' => $invoice->client]);
+        $pdf = PDF::loadView(
+            'pdf_view',
+            [
+                'invoice' => $invoice,
+                'client' => $invoice->client,
+                'accountant' => $invoice->accountant
+            ]
+        );
         return $pdf->download('pdf_file.pdf');
     }
 }

@@ -38,7 +38,8 @@ class InvoiceExportTest extends TestCase
      */
     public function route_to_download_pdf_exists()
     {
-        $response = $this->actingAs($this->user)->post('/invoices/export/' . $this->invoice->id);
+
+        $response = $this->actingAs($this->user)->get('/invoices/export/1');
         $response->assertStatus(200);
     }
 }

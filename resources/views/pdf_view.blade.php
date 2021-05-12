@@ -5,30 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>PDF Demo in Laravel 7</title>
+    <title>Invoice PDF</title>
 </head>
 <body>
-<table class="table table-bordered">
-    <thead>
-    <tr class="table-danger">
-        <td>Client</td>
-        <td>Description</td>
-        <td>Subtotal</td>
-        <td>Tax</td>
-        <td>Total</td>
-    </tr>
-    </thead>
-    <tbody>
-
-    <tr>
-        <td>{{ $client->name }}</td>
-        <td>{{ $invoice->description }}</td>
-        <td>{{ $invoice->subtotal }}</td>
-        <td>{{ $invoice->tax }}</td>
-        <td>{{ $invoice->total }}</td>
-    </tr>
-
-    </tbody>
-</table>
+<div class="container mx-auto mt-10 px-10 p-10 h-100 bg-white">
+    <div class="grid grid-cols-3 grid-rows-6 grid-flow-col">
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Client: </b>{{ $client->name  }}</div>
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl ">
+            <b>Description: </b>{{ $invoice->description }}</div>
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Subtotal: </b>{{ $invoice->subtotal }}
+        </div>
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Tax: </b>{{ $invoice->tax }}</div>
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Total: </b>{{ $invoice->total }}</div>
+        <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Accountant: </b>
+            @if($accountant)
+                <span>{{ $accountant->first_name }} {{ $accountant->last_name }}</span>
+            @else
+                <span v-else>Not Assigned</span>
+            @endif
+        </div>
+    </div>
+</div>
 </body>
 </html>
