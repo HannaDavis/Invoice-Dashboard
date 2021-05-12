@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model
 {
@@ -17,6 +18,7 @@ class Invoice extends Model
      */
     protected $fillable = [
         'client_id',
+        'accountant_id',
         'description',
         'subtotal',
         'tax',
@@ -25,7 +27,7 @@ class Invoice extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->withDefault(['name'=>'Hanna']);
+        return $this->belongsTo(User::class)->withDefault(['name' => 'Hanna']);
     }
 
     public function client()
@@ -37,4 +39,11 @@ class Invoice extends Model
     {
         return $this->belongsTo(Accountant::class);
     }
+
+    public function scopePending($query)
+    {
+        return $query->where('paid', '<', DB::raw('total'));
+    }
+
+
 }

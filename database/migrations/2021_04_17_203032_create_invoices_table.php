@@ -16,10 +16,12 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('accountant_id')->nullable();
             $table->string('description');
             $table->decimal('subtotal');
             $table->decimal('tax')->nullable();
             $table->decimal('total');
+            $table->decimal('paid')->default(0.00);
             $table->timestamps();
         });
     }

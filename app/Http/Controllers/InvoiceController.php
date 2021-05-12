@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InvoiceFormRequest;
 use App\Models\Invoice;
 use App\ViewModels\InvoiceDashboardViewModel;
+use App\ViewModels\InvoiceShowViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -55,7 +56,8 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return Inertia::render('Invoice/ViewForm', ['invoice' => $invoice]);
+        $viewModel = new InvoiceShowViewModel($invoice);
+        return Inertia::render('Invoice/ViewForm', $viewModel);
     }
 
     /**

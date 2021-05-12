@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceExportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,32 +33,26 @@ Route::get(
     }
 );
 
-Route::get('/dashboard', [InvoiceController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
-Route::get('/invoices', [InvoiceController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('invoices');
-
-Route::get('/invoices/create', [InvoiceController::class, 'create'])
-    ->middleware(['auth', 'verified']);
-
-Route::post('/invoice/store', [InvoiceController::class, 'store'])
-    ->middleware(['auth', 'verified']);
-
-Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
-    ->middleware(['auth', 'verified']);
-
-Route::get('/invoice/edit/{invoice}', [InvoiceController::class, 'edit'])
-    ->middleware(['auth', 'verified']);
-
-Route::post('/invoice/update/{invoice}', [InvoiceController::class, 'update'])
-    ->middleware(['auth', 'verified']);
-
-Route::get('/clients', [ClientController::class, 'index'])->name('clients')
-    ->middleware(['auth', 'verified']);
-
+Route::middleware(['auth', 'verified'])->group(
+    function () {
+        Route::get('/clients', [ClientController::class, 'index'])->name('clients');
+        Route::post('/invoice/update/{invoice}', [InvoiceController::class, 'update']);
+        Route::get('/dashboard', [InvoiceController::class, 'index'])->name('dashboard');
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+        Route::get('/invoices/create', [InvoiceController::class, 'create']);
+        Route::post('/invoice/store', [InvoiceController::class, 'store']);
+        Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
+        Route::get('/invoice/edit/{invoice}', [InvoiceController::class, 'edit']);
+        Route::get('/invoice/edit/{invoice}', [InvoiceController::class, 'edit']);
+        Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
+        Route::post('/invoice/store', [InvoiceController::class, 'store']);
+        Route::get('/invoices/create', [InvoiceController::class, 'create']);
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+        Route::get('/dashboard', [InvoiceController::class, 'index'])->name('dashboard');
+        Route::get('/invoices/export/{invoice}', [InvoiceExportController::class, 'exportPdf']);
+    }
+);
 
 
 require __DIR__ . '/auth.php';

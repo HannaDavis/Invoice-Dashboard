@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accountant;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\User;
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder
         Client::factory(20)->create();
 
         Invoice::factory(100)->create();
+
+        Accountant::factory(5)->create();
 
     }
 }

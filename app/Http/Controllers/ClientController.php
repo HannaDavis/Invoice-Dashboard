@@ -16,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(10);
+        $clients = Client::orderByDesc('id')->paginate(10);
         return Inertia::render('Client/dashboard', ['clients' => $clients]);
     }
 

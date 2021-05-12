@@ -11,6 +11,6 @@ class InvoiceDashboardViewModel extends ViewModel
 
     public function __construct()
     {
-        $this->invoices = Invoice::with('client')->paginate(10);
+        $this->invoices = Invoice::with('client', 'accountant')->paginate(10);
     }
 }

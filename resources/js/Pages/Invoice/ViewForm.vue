@@ -1,39 +1,58 @@
 <template>
     <breeze-authenticated-layout>
-        <template #header>
-            <section class="container mx-auto px-6 p-10">
-                <div class="grid grid-cols-3 grid-rows-5 grid-flow-col">
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl "><b>Client:</b></div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl "><b>Description:</b></div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl "><b>Subtotal:</b></div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl "><b>Tax:</b></div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl "><b>Total:</b></div>
+        <div class="container mx-auto mt-10 px-10 p-10 h-100 bg-white">
+            <div class="grid grid-cols-3 grid-rows-6 grid-flow-col">
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Client:</b></div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Description:</b></div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Subtotal:</b></div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Tax:</b></div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Total:</b></div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Accountant:</b></div>
 
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl ">{{ invoice.client_id }}</div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl ">{{ invoice.description }}
-                    </div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl ">{{ invoice.subtotal }}</div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl ">{{ invoice.tax }}</div>
-                    <div class=" rounded-md h-12 flex items-center justify-left text-2xl ">{{ invoice.total }}</div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">{{ invoice.client.name }}</div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">{{ invoice.description }}
                 </div>
-            </section>
-        </template>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">{{ invoice.subtotal }}</div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">{{ invoice.tax }}</div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">{{ invoice.total }}</div>
+                <div class=" rounded-md h-12 flex items-center justify-left text-xl ">
+                    <select v-model="accountant">
+                        <option disabled value="default">Please select one</option>
+                        <option v-for="accountant in accountants"
+                                v-bind:key="accountant.id"
+                                :value="accountant"
+                        >
+                            {{ accountant.first_name }} {{ accountant.last_name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </breeze-authenticated-layout>
 </template>
 
+
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
-import {reactive} from 'vue'
-import {Inertia} from '@inertiajs/inertia'
 
 export default {
-    props: ['invoice'],
+    props: ['invoice', 'accountants'],
     components: {
         BreezeAuthenticatedLayout,
     },
-    setup() {
-
+    data() {
+        return {
+            accountant: (this.invoice.accountant != null) ? this.invoice.accountant : 'default'
+        }
     },
+    watch: {
+        accountant: function () {
+            let formData = new FormData();
+
+            formData.append('accountant_id', this.accountant.id);
+            axios.post("/invoice/update/" + this.invoice.id, formData);
+        }
+    }
 
 }
 </script>

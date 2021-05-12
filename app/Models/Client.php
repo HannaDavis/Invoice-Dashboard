@@ -37,4 +37,5 @@ class Client extends Model
     {
         $this->attributes['name'] = strtolower($value);
     }
+
 }

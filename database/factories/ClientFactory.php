@@ -24,6 +24,7 @@ class ClientFactory extends Factory
         return [
             'name' => $this->faker->company,
             'address' => $this->faker->address,
+            'email' => $this->faker->email,
             'created_at' => now(),
             'updated_at' => now()
         ];
