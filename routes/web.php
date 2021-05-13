@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceExportController;
+use App\Http\Controllers\InvoiceSearchController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'verified'])->group(
         Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
         Route::post('/invoice/store', [InvoiceController::class, 'store']);
         Route::get('/invoices/create', [InvoiceController::class, 'create']);
+
+        Route::get('/search', [InvoiceSearchController::class, 'search'])->name('search');
         Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
         Route::get('/dashboard', [InvoiceController::class, 'index'])->name('dashboard');
         Route::get('/invoices/export/{invoice}', [InvoiceExportController::class, 'exportPdf']);

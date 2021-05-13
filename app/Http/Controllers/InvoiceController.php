@@ -19,11 +19,13 @@ class InvoiceController extends Controller
      *
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $viewModel = new InvoiceDashboardViewModel();
         return Inertia::render('InvoiceDashboard', $viewModel);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
