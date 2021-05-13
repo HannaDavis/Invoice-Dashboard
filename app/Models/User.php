@@ -44,11 +44,29 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user')
-                    ->as('JobTitles')
-                    ->withPivot('created_at');
+            ->as('JobTitles')
+            ->withPivot('created_at');
     }
 
-    public function getFullCredentialsAttribute(){
+    public function getFullCredentialsAttribute()
+    {
         return "{$this->name} {$this->email}";
+    }
+
+    protected $appends = [
+        'permissions',
+    ];
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'invoices' => [
+                'test' => $this->can('test')
+            ],
+        ];
+    }
+
+    public function isAdmin(){
+        return $this->roles->where('name', 'admin')->count() > 0;
     }
 }

@@ -10,6 +10,7 @@ class InvoiceDashboardViewModel extends ViewModel
 {
     public $invoices;
 
+
     public function __construct()
     {
 

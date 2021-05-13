@@ -1,6 +1,6 @@
 <template>
     <breeze-authenticated-layout>
-        <div class="container mx-auto mt-10 px-10 p-10 h-100 bg-white">
+        <div class="container mx-auto mt-10 px-10 p-10 h-100 bg-white"  v-if="can.view">
             <div class="grid grid-cols-3 grid-rows-6 grid-flow-col">
                 <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Client:</b></div>
                 <div class=" rounded-md h-12 flex items-center justify-left text-xl "><b>Description:</b></div>
@@ -28,6 +28,7 @@
                 </div>
             </div>
         </div>
+        <div class="container mx-auto mt-10 px-10 p-10 h-100 bg-white text-red-500 text-center" v-else>You don't have permissions to view</div>
     </breeze-authenticated-layout>
 </template>
 
@@ -36,7 +37,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
 
 export default {
-    props: ['invoice', 'accountants'],
+    props: ['invoice', 'accountants', 'can'],
     components: {
         BreezeAuthenticatedLayout,
     },

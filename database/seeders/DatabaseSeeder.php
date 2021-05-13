@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Accountant;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Role;
 use App\Models\User;
 use Database\Factories\ClientFactory;
 use Database\Factories\InvoiceFactory;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        User::factory()->create(
+        $user = User::factory()->create(
             [
                 'name' => 'Hanna',
                 'email' => 'hanna.davis.mail@gmail.com'
@@ -32,6 +33,10 @@ class DatabaseSeeder extends Seeder
         Invoice::factory(100)->create();
 
         Accountant::factory(5)->create();
+
+        Role::create(['name'=>'admin']);
+        Role::create(['name'=>'accountant']);
+        $user->roles()->sync([1]); //assign admin role to first user
 
     }
 }
